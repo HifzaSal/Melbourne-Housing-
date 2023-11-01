@@ -1,0 +1,58 @@
+-- avg house prices of suburbs 
+Select 
+Suburb,
+AVG(Price) AS Price
+
+FROM `hifza-portfolio-project-01.MelbourneHousing.Melbourne Housing` 
+Where Type ="h"
+Group by 
+Suburb;
+
+-- unique suburbs 
+SELECT Suburb,
+COUNT(*) AS number_of_suburbs
+FROM `hifza-portfolio-project-01.MelbourneHousing.Melbourne Housing` 
+GROUP BY Suburb
+Order by 1;
+
+-- checking unique house types 
+Select Distinct (Type)
+
+FROM `hifza-portfolio-project-01.MelbourneHousing.Melbourne Housing` ;
+
+ -- converting date colum from string to date 
+ -- adding zero to nulls 
+
+SELECT 
+  Suburb,
+  Room,
+  PARSE_DATE('%Y/%m/%d', Date) AS Date,
+  Price,
+  Distance,
+  Postcode,
+  CouncilArea,
+  COALESCE(Landsize, 0) AS Landsize
+
+FROM `hifza-portfolio-project-01.MelbourneHousing.Melbourne Housing` 
+WHERE
+Price is not null
+
+order by 1;
+
+-- Extracting Year from date 
+-- avg price based on number of rooms 
+SELECT 
+EXTRACT(YEAR FROM PARSE_DATE('%Y/%m/%d', Date)) AS Year,
+Avg (Price) AS AvgPrice,
+Room
+
+FROM `hifza-portfolio-project-01.MelbourneHousing.Melbourne Housing` 
+
+Where Landsize is not null
+AND Price is not null
+
+Group by Year,
+
+Room
+
+Order by 1,3 ;
